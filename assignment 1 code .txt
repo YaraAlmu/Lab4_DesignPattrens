@@ -1,0 +1,157 @@
+// Meal class
+public class Meal {
+    private String appetizer;
+    private String mainCourse;
+    private String sideDish;
+    private String dessert;
+    private String dietaryPreference;
+
+    public Meal() {}
+
+    // Getters and setters
+    public String getAppetizer() {
+        return appetizer;
+    }
+
+    public void setAppetizer(String appetizer) {
+        this.appetizer = appetizer;
+    }
+
+    public String getMainCourse() {
+        return mainCourse;
+    }
+
+    public void setMainCourse(String mainCourse) {
+        this.mainCourse = mainCourse;
+    }
+
+    public String getSideDish() {
+        return sideDish;
+    }
+
+    public void setSideDish(String sideDish) {
+        this.sideDish = sideDish;
+    }
+
+    public String getDessert() {
+        return dessert;
+    }
+
+    public void setDessert(String dessert) {
+        this.dessert = dessert;
+    }
+
+    public String getDietaryPreference() {
+        return dietaryPreference;
+    }
+
+    public void setDietaryPreference(String dietaryPreference) {
+        this.dietaryPreference = dietaryPreference;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "appetizer='" + appetizer + '\'' +
+                ", mainCourse='" + mainCourse + '\'' +
+                ", sideDish='" + sideDish + '\'' +
+                ", dessert='" + dessert + '\'' +
+                ", dietaryPreference='" + dietaryPreference + '\'' +
+                '}';
+    }
+}
+
+// MealBuilder interface
+public interface MealBuilder {
+    MealBuilder setDietaryPreference(String preference);
+    MealBuilder addAppetizer(String appetizer);
+    MealBuilder addMainCourse(String mainCourse);
+    MealBuilder addSideDish(String sideDish);
+    MealBuilder addDessert(String dessert);
+    Meal build();
+}
+
+// StandardMealBuilder class
+public class StandardMealBuilder implements MealBuilder {
+    private Meal meal;
+
+    public StandardMealBuilder() {
+        this.meal = new Meal();
+    }
+
+    @Override
+    public MealBuilder setDietaryPreference(String preference) {
+        meal.setDietaryPreference(preference);
+        return this;
+    }
+
+    @Override
+    public MealBuilder addAppetizer(String appetizer) {
+        meal.setAppetizer(appetizer);
+        return this;
+    }
+
+    @Override
+    public MealBuilder addMainCourse(String mainCourse) {
+        meal.setMainCourse(mainCourse);
+        return this;
+    }
+
+    @Override
+    public MealBuilder addSideDish(String sideDish) {
+        meal.setSideDish(sideDish);
+        return this;
+    }
+
+    @Override
+    public MealBuilder addDessert(String dessert) {
+        meal.setDessert(dessert);
+        return this;
+    }
+
+    @Override
+    public Meal build() {
+        return meal;
+    }
+}
+
+// MealDirector class
+public class MealDirector {
+    private MealBuilder mealBuilder;
+
+    public MealDirector(MealBuilder mealBuilder) {
+        this.mealBuilder = mealBuilder;
+    }
+
+    public void constructMeal() {
+        mealBuilder.setDietaryPreference("Vegetarian")
+                   .addAppetizer("Green Salad")
+                   .addMainCourse("Vegetable Stir Fry")
+                   .addSideDish("Steamed Rice")
+                   .addDessert("Fruit Salad");
+    }
+
+    public Meal getMeal() {
+        return mealBuilder.build();
+    }
+}
+
+// Client class
+public class Client {
+    public static void main(String[] args) {
+        // Create a builder
+        MealBuilder builder = new StandardMealBuilder();
+
+        // Create a director and pass the builder to it
+        MealDirector director = new MealDirector(builder);
+
+        // Construct the meal
+        director.constructMeal();
+
+        // Get the constructed meal
+        Meal meal = director.getMeal();
+
+        // Print the meal
+        System.out.println(meal);
+    }
+}

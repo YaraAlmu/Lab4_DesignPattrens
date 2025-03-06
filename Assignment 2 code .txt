@@ -1,0 +1,117 @@
+// Step 1: Abstract Vehicle class
+abstract class Vehicle {
+    // Attributes with types
+    private int doors;          // Number of doors (int)
+    private int seats;          // Number of seats (int)
+    private String engineType;  // Type of engine (String)
+
+    // Constructor
+    public Vehicle(int doors, int seats, String engineType) {
+        this.doors = doors;
+        this.seats = seats;
+        this.engineType = engineType;
+    }
+
+    // Getters
+    public int getDoors() {
+        return doors;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public String getEngineType() {
+        return engineType;
+    }
+
+    // Abstract method to describe the vehicle
+    public abstract String description();
+}
+
+// Step 2: Concrete Vehicle classes
+class Car extends Vehicle {
+    // Constructor
+    public Car() {
+        super(4, 5, "petrol"); // Car has 4 doors, 5 seats, and a petrol engine
+    }
+
+    // Override description method
+    @Override
+    public String description() {
+        return "Car: " + getDoors() + " doors, " + getSeats() + " seats, " + getEngineType() + " engine";
+    }
+}
+
+class Truck extends Vehicle {
+    // Constructor
+    public Truck() {
+        super(2, 3, "diesel"); // Truck has 2 doors, 3 seats, and a diesel engine
+    }
+
+    // Override description method
+    @Override
+    public String description() {
+        return "Truck: " + getDoors() + " doors, " + getSeats() + " seats, " + getEngineType() + " engine";
+    }
+}
+
+class Motorcycle extends Vehicle {
+    // Constructor
+    public Motorcycle() {
+        super(0, 2, "petrol"); // Motorcycle has 0 doors, 2 seats, and a petrol engine
+    }
+
+    // Override description method
+    @Override
+    public String description() {
+        return "Motorcycle: " + getDoors() + " doors, " + getSeats() + " seats, " + getEngineType() + " engine";
+    }
+}
+
+// Step 3: Abstract Factory class
+abstract class VehicleFactory {
+    public abstract Vehicle createVehicle();
+}
+
+// Step 4: Concrete Factory classes
+class CarFactory extends VehicleFactory {
+    @Override
+    public Vehicle createVehicle() {
+        return new Car();
+    }
+}
+
+class TruckFactory extends VehicleFactory {
+    @Override
+    public Vehicle createVehicle() {
+        return new Truck();
+    }
+}
+
+class MotorcycleFactory extends VehicleFactory {
+    @Override
+    public Vehicle createVehicle() {
+        return new Motorcycle();
+    }
+}
+
+// Step 5: Client code
+public class VehicleAssemblyLine {
+    public static void assembleVehicle(VehicleFactory factory) {
+        Vehicle vehicle = factory.createVehicle();
+        System.out.println("Assembled: " + vehicle.description());
+    }
+
+    public static void main(String[] args) {
+        // Create factories for each vehicle type
+        VehicleFactory carFactory = new CarFactory();
+        VehicleFactory truckFactory = new TruckFactory();
+        VehicleFactory motorcycleFactory = new MotorcycleFactory();
+
+        // Assemble vehicles
+        assembleVehicle(carFactory);      
+        assembleVehicle(truckFactory);     
+        assembleVehicle(motorcycleFactory); 
+    }
+}
